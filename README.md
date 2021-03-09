@@ -1,6 +1,6 @@
-# https://clinknotes.netlify.app/
+# https://clink-weather.netlify.app/
 
-# Clink Notes
+# Clink Weather
 
 ## Build Setup
 
