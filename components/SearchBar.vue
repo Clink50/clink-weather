@@ -33,6 +33,7 @@ export default {
   flex: 2;
 
   input {
+    border-radius: 0;
     background: transparent;
     width: 100%;
     padding: 0.8rem;
