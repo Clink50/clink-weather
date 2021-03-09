@@ -1,0 +1,23 @@
+:root {
+  // Colors
+  --opaque-white: #FFFFFF99;
+  --white: #FFF;
+
+  --gray-1: #E4E4E4;
+  --gray-2: #00000029;
+  --gray-3: #13264A33;
+  --gray-4: #1A20214D;
+  --gray-5: #13264A66;
+  --dark-gray: #1A2021CC;
+
+  --teal: #20D1BC;
+  --blue: #1AADE3;
+  --light-blue: #1AAFE0;
+  --text: #072A41;
+  --icon: #13264ACC;
+
+  --gradient: transparent linear-gradient(180deg, var(--teal) 0%, var(--blue) 100%) 0% 0% no-repeat padding-box;
+
+  // Fonts
+  --main-font: 'Helvetica Neue', 'Roboto', Helvetica, Arial, sans-serif;
+}
