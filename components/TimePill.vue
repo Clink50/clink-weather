@@ -1,9 +1,16 @@
 <template>
   <div class="pill-container">
-    <p>{{ time }}</p>
+    <p>
+      {{
+        new Date(time * 1000)
+          .toLocaleTimeString([], { hour: '2-digit' })
+          .toLowerCase()
+          .replace(/^0(?:0:0?)?/, '')
+      }}
+    </p>
     <div class="pill">
-      <img :src="require(`~/assets/img/${weatherImage}`)" :alt="weatherAlt" />
-      <p>{{ degrees }}&deg;</p>
+      <img :src="require(`~/assets/img/sun.svg`)" :alt="weatherAlt" />
+      <p>{{ temp }}&deg;</p>
     </div>
   </div>
 </template>
@@ -12,7 +19,7 @@
 export default {
   props: {
     time: {
-      type: String,
+      type: Number,
       required: true,
     },
     weatherImage: {
@@ -23,7 +30,7 @@ export default {
       type: String,
       required: true,
     },
-    degrees: {
+    temp: {
       type: Number,
       required: true,
     },

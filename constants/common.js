@@ -1,1 +1,1 @@
-// export const SIGN_IN_ENDPOINT = 'signInWithPassword';
+export const UNITED_STATES = 'United States of America';

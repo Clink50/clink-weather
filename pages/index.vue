@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <div class="header">
-      <SearchBar placeholder="E.g. Warsaw" />
+      <Autocomplete v-model="search" placeholder="E.g. Warsaw" @result="onResult" />
       <DegreeButton />
     </div>
     <div class="weather-content">
@@ -9,31 +9,31 @@
         <div class="weather-content__current--top">
           <div class="date">
             <h3>Today</h3>
-            <p>Wed, 17 Feb</p>
+            <p>{{ new Date() | locationDate }}</p>
           </div>
           <div class="weather">
             <img src="~/assets/img/snowflake.svg" alt="snowflake" />
           </div>
         </div>
         <div class="weather-content__current--middle">
-          <h1 class="degrees">{{ degrees }}&deg;</h1>
+          <h1 class="degrees">{{ weather.temp }}&deg;</h1>
         </div>
         <div class="weather-content__current--bottom">
           <h2 class="location">
             <img src="~/assets/img/location.svg" alt="location pinpoint" />
-            Cracow, Poland
+            {{ weather.location.area || 'Enter a location' }}
           </h2>
         </div>
       </div>
       <div class="weather-content__times">
         <div class="pills">
           <TimePill
-            v-for="({ time, weatherImage, weatherAlt, degrees }, index) in times"
+            v-for="({ time, weatherImage, weatherAlt, temp }, index) in weather.hourly"
             :key="index"
             :time="time"
             :weather-image="weatherImage"
             :weather-alt="weatherAlt"
-            :degrees="degrees"
+            :temp="temp"
           />
         </div>
       </div>
@@ -56,106 +56,80 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
-      times: [
-        {
-          time: 'Now',
-          weatherImage: 'sun.svg',
-          weatherAlt: 'Sunny',
-          degrees: 2,
-        },
-        {
-          time: '12pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -1,
-        },
-        {
-          time: '1pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -1,
-        },
-        {
-          time: '2pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -2,
-        },
-        {
-          time: '3pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -3,
-        },
-        {
-          time: '4pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -3,
-        },
-        {
-          time: '5pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: -1,
-        },
-        {
-          time: '6pm',
-          weatherImage: 'cloudy.svg',
-          weatherAlt: 'cloudy',
-          degrees: 0,
-        },
-      ],
-      cards: [
+      search: '',
+    };
+  },
+  computed: {
+    ...mapState('weather', ['weather']),
+
+    cards() {
+      return [
         {
           title: 'Sunrise',
-          data: '06:47am',
+          data: new Date(this.weather.sunrise * 1000)
+            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            .toLowerCase()
+            .replace(/\s+/g, ''),
           icon: 'sunrise.svg',
         },
         {
           title: 'Sunset',
-          data: '05:04pm',
+          data: new Date(this.weather.sunset * 1000)
+            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            .toLowerCase()
+            .replace(/\s+/g, ''),
           icon: 'sunset.svg',
         },
         {
           title: 'Precipitation',
-          data: '60%',
+          data: `${this.weather.precipitation}%`,
           icon: 'raindrop.svg',
         },
         {
           title: 'Humidity',
-          data: '15%',
+          data: `${this.weather.humidity}%`,
           icon: 'humidity.svg',
         },
         {
           title: 'Wind',
-          data: '17 km/h',
+          data: `${this.weather.wind} m/h`,
           icon: 'sunrise.svg',
         },
         {
           title: 'Pressure',
-          data: '1021 hPa',
+          data: `${this.weather.wind} hPa`,
           icon: 'pressure.svg',
         },
         {
           title: 'Feels like',
-          data: '26.6°',
-          icon: 'sunrise.svg',
+          data: `${this.weather.feelsLike}°`,
+          icon: 'feels-like.svg',
         },
         {
           title: 'Visibility',
-          data: '50 km',
+          data: `${this.weather.visibility} miles`,
           icon: 'visibility.svg',
         },
-      ],
-    };
+      ];
+    },
   },
-  computed: {
-    ...mapState('weather', ['degrees']),
+  methods: {
+    ...mapMutations('weather', ['updateLocation']),
+    ...mapActions('weather', ['getCurrentWeather']),
+
+    async onResult(location) {
+      this.search = location.area;
+      this.updateLocation(location);
+      await this.getCurrentWeather({
+        coords: { latitude: location.latitude, longitude: location.longitude },
+        $config: this.$config,
+      });
+    },
   },
 };
 </script>

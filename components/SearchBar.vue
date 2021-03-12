@@ -1,11 +1,6 @@
 <template>
   <div class="search">
-    <input
-      type="search"
-      :value="value"
-      :placeholder="placeholder"
-      @input="$emit('input', $event.target.value)"
-    />
+    <input type="search" :value="value" :placeholder="placeholder" @input="onChange" />
     <i class="fas fa-search"></i>
   </div>
 </template>
@@ -21,6 +16,11 @@ export default {
     placeholder: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    onChange(event) {
+      this.$emit('input', event.target.value);
     },
   },
 };

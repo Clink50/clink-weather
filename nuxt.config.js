@@ -38,7 +38,7 @@ export default {
   // },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/filters/filters'],
+  plugins: ['~/plugins/nuxt-client-init.client.js', '~/filters/filters'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -71,6 +71,10 @@ export default {
     axios: {
       // baseURL: '',
     },
+    cityFinderBaseUrl: process.env.CITY_FINDER_BASE_URL || 'https://api.teleport.org/api',
+    openWeatherBaseUrl:
+      process.env.OPEN_WEATHER_BASE_URL || 'http://api.openweathermap.org/data/2.5',
+    openWeatherApiKey: process.env.OPEN_WEATHER_API_KEY,
   },
 
   // Should hold all env variables that are private and should
