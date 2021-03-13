@@ -12,7 +12,10 @@
             <p>{{ new Date() | locationDate }}</p>
           </div>
           <div class="weather">
-            <img src="~/assets/img/snowflake.svg" alt="snowflake" />
+            <img
+              :src="require(`~/assets/img/${weather.icon.image || 'sun.svg'}`)"
+              :alt="weather.icon.alt"
+            />
           </div>
         </div>
         <div class="weather-content__current--middle">
@@ -28,11 +31,10 @@
       <div class="weather-content__times">
         <div class="pills">
           <TimePill
-            v-for="({ time, weatherImage, weatherAlt, temp }, index) in weather.hourly"
+            v-for="({ time, icon, temp }, index) in weather.hourly"
             :key="index"
             :time="time"
-            :weather-image="weatherImage"
-            :weather-alt="weatherAlt"
+            :icon="icon"
             :temp="temp"
           />
         </div>
@@ -43,12 +45,11 @@
       <h2>Weather Details</h2>
       <div class="cards">
         <DetailCard
-          v-for="({ title, data, icon, iconAlt }, index) in cards"
+          v-for="({ title, data, icon }, index) in cards"
           :key="index"
           :title="title"
           :data="data"
           :icon="icon"
-          :icon-alt="iconAlt"
         />
       </div>
     </div>
@@ -71,18 +72,12 @@ export default {
       return [
         {
           title: 'Sunrise',
-          data: new Date(this.weather.sunrise * 1000)
-            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            .toLowerCase()
-            .replace(/\s+/g, ''),
+          data: this.weather.sunrise,
           icon: 'sunrise.svg',
         },
         {
           title: 'Sunset',
-          data: new Date(this.weather.sunset * 1000)
-            .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            .toLowerCase()
-            .replace(/\s+/g, ''),
+          data: this.weather.sunset,
           icon: 'sunset.svg',
         },
         {
@@ -98,7 +93,7 @@ export default {
         {
           title: 'Wind',
           data: `${this.weather.wind} m/h`,
-          icon: 'sunrise.svg',
+          icon: 'wind.svg',
         },
         {
           title: 'Pressure',
