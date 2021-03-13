@@ -73,7 +73,7 @@ export default {
     },
     cityFinderBaseUrl: process.env.CITY_FINDER_BASE_URL || 'https://api.teleport.org/api',
     openWeatherBaseUrl:
-      process.env.OPEN_WEATHER_BASE_URL || 'http://api.openweathermap.org/data/2.5',
+      process.env.OPEN_WEATHER_BASE_URL || 'https://api.openweathermap.org/data/2.5',
     openWeatherApiKey: process.env.OPEN_WEATHER_API_KEY,
   },
 
