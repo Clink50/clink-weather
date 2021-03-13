@@ -165,7 +165,7 @@ export const actions = {
               temp: Math.round(hour.temp),
             };
           })
-          .splice(1, 9),
+          .splice(1, 8),
       };
       commit('updateWeather', weatherData);
     } catch (err) {
