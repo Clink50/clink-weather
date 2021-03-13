@@ -17,9 +17,25 @@ const shortDateFilter = (value) =>
     day: 'numeric',
   });
 
+const locationDateFilter = (value) => {
+  const [weekDay, month, day] = new Date()
+    .toLocaleString('en-us', { weekday: 'short', month: 'short', day: 'numeric' })
+    .split(' ');
+  return `${weekDay} ${month} ${day}`;
+};
+
+const shortTimeFilter = (value) => {
+  return new Date(value * 1000)
+    .toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    .toLowerCase()
+    .replace(/\s+/g, '');
+};
+
 const filters = {
   slashDate: dateFilter,
   shortDate: shortDateFilter,
+  locationDate: locationDateFilter,
+  shortTime: shortTimeFilter,
 };
 
 for (const name in filters) {

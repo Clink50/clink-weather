@@ -1,9 +1,11 @@
 <template>
   <div class="pill-container">
-    <p>{{ time }}</p>
+    <p>
+      {{ time }}
+    </p>
     <div class="pill">
-      <img :src="require(`~/assets/img/${weatherImage}`)" :alt="weatherAlt" />
-      <p>{{ degrees }}&deg;</p>
+      <img :src="require(`~/assets/img/${icon.image}`)" :alt="icon.alt" />
+      <p>{{ temp }}&deg;</p>
     </div>
   </div>
 </template>
@@ -15,15 +17,11 @@ export default {
       type: String,
       required: true,
     },
-    weatherImage: {
-      type: String,
+    icon: {
+      type: Object,
       required: true,
     },
-    weatherAlt: {
-      type: String,
-      required: true,
-    },
-    degrees: {
+    temp: {
       type: Number,
       required: true,
     },

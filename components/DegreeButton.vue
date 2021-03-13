@@ -1,9 +1,9 @@
 <template>
   <div class="btn-container">
     <button @click="changeDegree">
-      <span :class="{ active: unit === 'F' }">F</span>
+      <span :class="{ active: weather.unit === 'F' }">F</span>
       <span class="slash"></span>
-      <span :class="{ active: unit === 'C' }">C</span>
+      <span :class="{ active: weather.unit === 'C' }">C</span>
     </button>
   </div>
 </template>
@@ -13,7 +13,7 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   computed: {
-    ...mapState('weather', ['unit']),
+    ...mapState('weather', ['weather']),
   },
   methods: {
     ...mapActions('weather', ['toggleDegrees']),
