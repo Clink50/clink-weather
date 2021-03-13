@@ -167,7 +167,6 @@ export const actions = {
           })
           .splice(1, 9),
       };
-      console.log(weatherData);
       commit('updateWeather', weatherData);
     } catch (err) {
       throw new Error('Could not retieve weather data.');
