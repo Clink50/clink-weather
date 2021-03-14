@@ -14,7 +14,7 @@ export default {
       { hid: 'description', name: 'description', content: 'Get your latest weather updates here!' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/clink-weather.ico' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap',

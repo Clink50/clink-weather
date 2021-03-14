@@ -14,6 +14,8 @@ export const actions = {
         return;
       }
 
+      context.commit('weather/setLanguage', navigator.language);
+
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
           context.dispatch('weather/getCityByLatLong', { coords, $config });

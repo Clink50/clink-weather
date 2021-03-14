@@ -1,4 +1,3 @@
-// const BY_LOCATION_URL = '/weather';
 const BY_LAT_LONG_URL = '/onecall';
 const BY_LOCATION_URL = '/locations/';
 
@@ -17,6 +16,7 @@ const iconMap = (iconId) => {
 };
 
 export const state = () => ({
+  language: 'en-US',
   weather: {
     temp: 0,
     unit: 'F',
@@ -62,6 +62,9 @@ export const mutations = {
       ...state.weather,
       ...weatherData,
     };
+  },
+  setLanguage: (state, language) => {
+    state.language = language;
   },
 };
 
@@ -128,16 +131,18 @@ export const actions = {
       const weatherData = {
         temp: Math.round(weatherDetails.current.temp),
         sunrise: new Date(weatherDetails.current.sunrise * 1000)
-          .toLocaleTimeString([], {
+          .toLocaleTimeString(state.language, {
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: weatherDetails.timezone,
           })
           .toLowerCase()
           .replace(/\s+/g, ''),
         sunset: new Date(weatherDetails.current.sunset * 1000)
-          .toLocaleTimeString([], {
+          .toLocaleTimeString(state.language, {
             hour: '2-digit',
             minute: '2-digit',
+            timeZone: weatherDetails.timezone,
           })
           .toLowerCase()
           .replace(/\s+/g, ''),
@@ -155,7 +160,10 @@ export const actions = {
           .map((hour) => {
             return {
               time: new Date(hour.dt * 1000)
-                .toLocaleTimeString([], { hour: '2-digit', timeZone: weatherDetails.timezone })
+                .toLocaleTimeString(state.language, {
+                  hour: '2-digit',
+                  timeZone: weatherDetails.timezone,
+                })
                 .toLowerCase()
                 .replace(/^0(?:0:0?)?/, ''),
               icon: {
@@ -169,7 +177,7 @@ export const actions = {
       };
       commit('updateWeather', weatherData);
     } catch (err) {
-      throw new Error('Could not retieve weather data.');
+      throw new Error('Could not retieve weather data.', err);
     }
   },
 };
